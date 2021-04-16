@@ -3,6 +3,7 @@ import {
   PermissionRequest,
   OperationRequest,
   SignPayloadRequest,
+  EncryptPayloadRequest,
   BroadcastRequest
 } from '../../..'
 
@@ -36,6 +37,14 @@ export type SignPayloadRequestOutput = Omit<SignPayloadRequest, IgnoredRequestOu
 /**
  * @category Wallet
  */
+export type EncryptPayloadRequestOutput = Omit<
+  EncryptPayloadRequest,
+  IgnoredRequestOutputProperties
+> &
+  ExtraResponseOutputProperties
+/**
+ * @category Wallet
+ */
 export type BroadcastRequestOutput = Omit<BroadcastRequest, IgnoredRequestOutputProperties> &
   ExtraResponseOutputProperties
 
@@ -47,4 +56,5 @@ export type BeaconRequestOutputMessage =
   | PermissionRequestOutput
   | OperationRequestOutput
   | SignPayloadRequestOutput
+  | EncryptPayloadRequestOutput
   | BroadcastRequestOutput

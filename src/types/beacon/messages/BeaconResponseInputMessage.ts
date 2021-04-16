@@ -2,6 +2,7 @@ import {
   PermissionResponse,
   OperationResponse,
   SignPayloadResponse,
+  EncryptPayloadResponse,
   BroadcastResponse,
   AcknowledgeResponse,
   ErrorResponse
@@ -27,6 +28,13 @@ export type SignPayloadResponseInput = Omit<SignPayloadResponse, IgnoredResponse
 /**
  * @category Wallet
  */
+export type EncryptPayloadResponseInput = Omit<
+  EncryptPayloadResponse,
+  IgnoredResponseInputProperties
+>
+/**
+ * @category Wallet
+ */
 export type BroadcastResponseInput = Omit<BroadcastResponse, IgnoredResponseInputProperties>
 /**
  * @category Wallet
@@ -45,6 +53,7 @@ export type BeaconResponseInputMessage =
   | PermissionResponseInput
   | OperationResponseInput
   | SignPayloadResponseInput
+  | EncryptPayloadResponseInput
   | BroadcastResponseInput
   | AcknowledgeResponseInput
   | ErrorResponseInput
