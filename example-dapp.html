@@ -86,8 +86,11 @@
     <br /><br />
     <button id="contractCall">Contract Call</button>
     <br /><br />
-    <textarea id="beacon-textbox"></textarea>
+    <button id="batch">Batch</button>
+    <br /><br />
     <button id="deserializeData">Deserialize Data</button>
+    <br /><br />
+    <button id="tokenTransaction">Token Transaction</button>
     <br /><br />
     ---
     <br /><br />
@@ -96,13 +99,14 @@
     <p style="margin-top: 1000px;">End of page</p>
 
     <script>
+      const TZ_BUTTON_COLORS_CONTRACT = 'KT1E4cqQpYduJj77hx5vJz4o1r61bn3G2DjA'
+      const TOKEN_ID = '925'
+
       // Initiate DAppClient
       const client = new beacon.DAppClient({
-        name: 'Example DApp' // Name of the DApp,
-        // preferredNetwork: beacon.NetworkType.DELPHINET
-        // matrixNodes: ['test.papers.tech', 'test2.papers.tech', 'matrix.papers.tech']
-        // matrixNodes: ['beacon-node-0.papers.tech:8448']
-        // matrixNodes: ['matrix.papers.tech']
+        name: 'Example DApp', // Name of the DApp,
+        preferredNetwork: beacon.NetworkType.FLORENCENET,
+        matrixNodes: ['matrix.papers.tech']
         // matrixNodes: ['beacon.tztip.me']
       })
 
@@ -136,13 +140,13 @@
           operationDetails: [
             {
               kind: beacon.TezosOperationType.DELEGATION,
-              delegate: 'tz1MJx9vhaNRSimcuXPK2rW4fLccQnDAnVKJ'
+              delegate: 'tz1aWXa237BLwNHJcCD4b3DutCevhqq2T1Z9'
             }
           ]
         })
       }
 
-      // Initiate a delegate operation
+      // Initiate a transaction operation
       const sendToSelf = () => {
         client.getActiveAccount().then((activeAccount) => {
           client.requestOperation({
@@ -160,7 +164,7 @@
       // Initiate a permission request
       const requestPermission = (callback) => {
         client
-          .requestPermissions(/*{ network: { type: beacon.NetworkType.DELPHINET } }*/)
+          .requestPermissions({ network: { type: beacon.NetworkType.FLORENCENET } })
           .then((permissions) => {
             console.log('permissions', permissions)
             if (callback) {
@@ -319,11 +323,11 @@
               {
                 kind: beacon.TezosOperationType.TRANSACTION,
                 amount: '0',
-                destination: 'KT1RxKJyi48W3bZR8HErRiisXZQw19HwLGWj',
+                destination: 'KT1Mf9rRmchwf8BZ4Tem8iTaS5vRESmxek83',
                 parameters: {
-                  entrypoint: 'toggleStatus',
+                  entrypoint: 'replace',
                   value: {
-                    prim: 'True'
+                    int: '42'
                   }
                 }
               }
@@ -332,6 +336,37 @@
           .then((response) => console.log(response))
           .catch((error) => console.log(error))
       })
+
+      document.getElementById('batch').addEventListener('click', () => {
+        client
+          .getActiveAccount()
+          .then((activeAccount) => {
+            client.requestOperation({
+              operationDetails: [
+                {
+                  kind: beacon.TezosOperationType.TRANSACTION,
+                  amount: '1',
+                  destination: activeAccount.address
+                },
+                {
+                  kind: beacon.TezosOperationType.TRANSACTION,
+                  amount: '0',
+                  destination: 'KT1Mf9rRmchwf8BZ4Tem8iTaS5vRESmxek83',
+                  parameters: {
+                    entrypoint: 'replace',
+                    value: {
+                      int: '16'
+                    }
+                  }
+                }
+              ]
+            })
+          })
+          .then((response) => console.log(response))
+          .catch((error) => console.log(error))
+      })
+
+      document.getElementById('tokenTransaction').addEventListener('click', () => {})
 
       // Add event listener to the button
       document.getElementById('2requests').addEventListener('click', () => {
@@ -358,9 +393,7 @@
 
       // Add event listener to the button
       document.getElementById('deserializeData').addEventListener('click', () => {
-        const value = document.getElementById('beacon-textbox').value
-        console.log('Deserializing:', value)
-        new beacon.Serializer().deserialize(value).then(console.log).catch(console.error)
+        new beacon.Serializer().deserialize('').then(console.log).catch(console.error)
       })
     </script>
   </body>
