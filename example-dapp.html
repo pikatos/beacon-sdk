@@ -103,7 +103,7 @@
       // Initiate DAppClient
       const client = new beacon.DAppClient({
         name: 'Example DApp', // Name of the DApp,
-        preferredNetwork: beacon.NetworkType.FLORENCENET,
+        preferredNetwork: beacon.NetworkType.GRANADANET,
         matrixNodes: ['matrix.papers.tech']
         // matrixNodes: ['beacon.tztip.me']
       })
@@ -138,7 +138,7 @@
           operationDetails: [
             {
               kind: beacon.TezosOperationType.DELEGATION,
-              delegate: 'tz1aWXa237BLwNHJcCD4b3DutCevhqq2T1Z9'
+              delegate: 'tz1aWXP237BLwNHJcCD4b3DutCevhqq2T1Z9'
             }
           ]
         })
@@ -162,7 +162,7 @@
       // Initiate a permission request
       const requestPermission = (callback) => {
         client
-          .requestPermissions({ network: { type: beacon.NetworkType.FLORENCENET } })
+          .requestPermissions({ network: { type: beacon.NetworkType.GRANADANET } })
           .then((permissions) => {
             console.log('permissions', permissions)
             if (callback) {
